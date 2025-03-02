@@ -1,6 +1,6 @@
 # NoteKeeper
 
-NoteKeeper is a simple and powerful note-taking web application built with React. It allows users to create, edit, and format notes efficiently.
+NoteKeeper is a simple and powerful note-taking web application built with React. It allows users to create, edit, and format notes and manage tasks efficiently.
 
 ## Features
 - 📝 Rich-text editing (bold, italics, underline, etc.)
