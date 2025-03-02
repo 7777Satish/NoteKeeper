@@ -1,5 +1,6 @@
 import { IoCreateOutline, IoHelpCircleOutline, IoHomeOutline, IoNotificationsOutline, IoSearch, IoSettingsOutline } from 'react-icons/io5';
 import styles from './Left.module.css';
+import FolderStructure from './FolderStructure';
 
 function Left(){
     return <>
@@ -33,10 +34,7 @@ function Left(){
             </div>
 
             <div className={styles.center}>
-                <div className={styles.title}><b>PRIVATE</b></div>
-                <div className={styles.files}>
-                    <div className={styles.file}></div>
-                </div>
+                <FolderStructure />
             </div>
             
             <div className={styles.footer}>
