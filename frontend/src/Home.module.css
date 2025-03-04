@@ -21,7 +21,7 @@
     width: 100%;
     height: 50px;
     padding: 20px;
-    background: #efefef;
+    background: #f6f6f6;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -65,12 +65,14 @@
 
 .main .right .bottom{
     width: 100%;
-    height: 100%;
-    display: grid;
+    height: calc( 100vh - 50px );
+    display: flex;
+    flex-direction: column;
     gap: 30px;
-    grid-template-columns: 150px 1fr 150px;
     align-items: center;
-    align-content: center;
+    background: #fafafa;
+    overflow-x: auto;
+    cursor: text;
 }
 
 ::selection{
@@ -78,11 +80,14 @@
 }
 
 .main .right .bottom .image{
+    flex-shrink: 0;
     grid-column: 1/3;
-    height: 200px;
+    height: 100px;
+    cursor: unset;
 }
 
 .main .right .bottom .title{
+    width: 60%;
     grid-column: 2/3;
     height: 100px;
     display: flex;
@@ -98,7 +103,8 @@
 
 .main .right .bottom .content{
     grid-column: 2/3;
-    height: auto;
+    width: 60%;
+    flex-shrink: 0;
     min-height: 250px;
     outline: none;
     border: none;
@@ -106,9 +112,15 @@
     font-family: 'Poppins', sans-serif;
     white-space: pre-wrap;
     word-wrap: break-word;
+    padding-bottom: 100px;
 }
 
 
 .main .right .bottom .content ul, .main .right .bottom .content ol{
     padding-left: 35px;
+}
+
+.main .right .bottom .space{
+    width: 80%;
+    height: 150px;
 }

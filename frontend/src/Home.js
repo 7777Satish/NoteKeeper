@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Home.module.css';
 import Left from './Components/Left';
 import Movable from './Components/Movable';
@@ -11,10 +11,25 @@ import { CgMoreAlt } from 'react-icons/cg';
 function Home(){
     
     const [title, setTitle] = useState('New Page');
+    const [content, setContent] = useState(`Welcome to NotesBolt 📝
+<p>This is your first document. You can edit, format, and structure your content however you like. Here are some things you can do:</p>
+<h2>✨ Cool Features</h2>
+<ul><li><b>Bold text</b> for emphasis</li><li><i>Italic text</i> for style</li><li><s>Strikethrough</s> for mistakes</li>
+</ul>
+<h2>📌 Notes & Reminders</h2>
+<blockquote><i>"The secret of getting ahead is getting started."</i> – Mark Twain</blockquote>
+<p>Start writing your ideas below! 🚀</p>`);
     const [layout, setLayout] = useState(250);
+    
+    const titleRef = useRef(null);
+    const contentRef = useRef(null);
 
     const handleTitleChange = (e) => {
         setTitle(e.target.innerText);
+    }
+
+    const handleContentChange = (e) => {
+        setContent(e.target.innerHTML);
     }
 
     return <>
@@ -28,7 +43,7 @@ function Home(){
 
                 <div className={styles.top}>
                     <div className={styles.left}>
-                        <h2>{title}</h2>
+                        <h2>{title==''?'New Page':title}</h2>
                         <span><BiLockAlt />Private</span>
                     </div>
 
@@ -39,9 +54,10 @@ function Home(){
                     </div>
                 </div>
                 <div className={styles.bottom}>
-                    <div className={styles.title} contentEditable='true' onInput={handleTitleChange}>{title}</div>
-                    <pre className={styles.content} contentEditable="true">
-Welcome to NotesBolt 📝<br/>
+                    <div className={styles.image}></div>
+                    <div ref={titleRef} className={styles.title} contentEditable='true' onInput={handleTitleChange}>{title}</div>
+                    <pre ref={contentRef} onInput={handleContentChange}  dangerouslySetInnerHTML={{ __html: content }} className={styles.content} contentEditable="true">
+{/* Welcome to NotesBolt 📝<br/>
 
 <p>This is your first document. You can edit, format, and structure your content however you like. Here are some things you can do:</p>
 <br />
@@ -55,8 +71,9 @@ Welcome to NotesBolt 📝<br/>
 <h2>📌 Notes & Reminders</h2>
 <blockquote><i>"The secret of getting ahead is getting started."</i> – Mark Twain</blockquote>
 <br /><br />
-<p>Start writing your ideas below! 🚀</p>
+<p>Start writing your ideas below! 🚀</p> */}
                     </pre>
+                    <div className={styles.space}></div>
                 </div>
 
             </div>
