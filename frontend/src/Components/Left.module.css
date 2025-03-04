@@ -123,3 +123,9 @@
 .main .footer .row .right{
     font-size: large;
 }
+
+.main .footer .copyright{
+    margin-top: -5px;
+    padding: 0 10px;
+    font-size: 10px;
+}

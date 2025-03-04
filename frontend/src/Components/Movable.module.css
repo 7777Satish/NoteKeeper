@@ -1,5 +1,5 @@
 .bar{
-    background: transparent;
+    background: var(--secondary_background);
     transition: 0.3s ease;
     transition-delay: 0.2s;
     user-select: none;
@@ -10,12 +10,12 @@
 }
 
 .vertical{
-    width: 5px;
+    width: var(--movable_size);
     height: 100%;
     cursor: col-resize;
 }
 
 .horizontal{
     width: 100%;
-    height: 5px;
+    height: var(--movable_size);
 }

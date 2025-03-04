@@ -7,8 +7,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.get('/',(req,res)=>{
-    res.send('Hi');
-});
+const api = require('./routes/api');
+app.use('/api', api);
 
 module.exports = app;

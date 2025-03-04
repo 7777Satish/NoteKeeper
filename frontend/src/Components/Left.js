@@ -47,6 +47,10 @@ function Left(){
                         <IoHelpCircleOutline />
                     </div>
                 </div>
+                
+                <div className={`${styles.row} ${styles.copyright}`}>
+                    <span>copyright &copy; 2025 @ Satish Satish</span>
+                </div>
             </div>
 
         </div>
