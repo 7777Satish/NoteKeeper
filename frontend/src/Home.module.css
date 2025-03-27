@@ -87,6 +87,7 @@
 }
 
 .main .right .bottom .title{
+    font-family: 'Poppins', sans-serif;
     width: 60%;
     grid-column: 2/3;
     height: 100px;
@@ -98,6 +99,7 @@
     font-weight: 600;
     outline: none;
     border: none;
+    background: transparent;
 }
 
 

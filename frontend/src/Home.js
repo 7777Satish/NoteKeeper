@@ -25,7 +25,8 @@ function Home(){
     const contentRef = useRef(null);
 
     const handleTitleChange = (e) => {
-        setTitle(e.target.innerText);
+        setTitle(e.target.value);
+        // setTitle(e.target.innerText);
     }
 
     const handleContentChange = (e) => {
@@ -55,9 +56,10 @@ function Home(){
                 </div>
                 <div className={styles.bottom}>
                     <div className={styles.image}></div>
-                    <div ref={titleRef} className={styles.title} contentEditable='true' onInput={handleTitleChange}>{title}</div>
-                    <pre ref={contentRef} onInput={handleContentChange}  dangerouslySetInnerHTML={{ __html: content }} className={styles.content} contentEditable="true">
-{/* Welcome to NotesBolt 📝<br/>
+                    {/* <div ref={titleRef} className={styles.title} contentEditable='true' onInput={handleTitleChange}>{title}</div> */}
+                    <input placeholder='New Page' value={title} className={styles.title} onChange={handleTitleChange}/>
+                    <pre ref={contentRef} onInput={handleContentChange} className={styles.content} contentEditable="true">
+Welcome to NotesBolt 📝<br/>
 
 <p>This is your first document. You can edit, format, and structure your content however you like. Here are some things you can do:</p>
 <br />
@@ -71,7 +73,7 @@ function Home(){
 <h2>📌 Notes & Reminders</h2>
 <blockquote><i>"The secret of getting ahead is getting started."</i> – Mark Twain</blockquote>
 <br /><br />
-<p>Start writing your ideas below! 🚀</p> */}
+<p>Start writing your ideas below! 🚀</p>
                     </pre>
                     <div className={styles.space}></div>
                 </div>
