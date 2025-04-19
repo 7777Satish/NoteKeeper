@@ -65,7 +65,7 @@
 
 .main .right .bottom{
     width: 100%;
-    height: calc( 100vh - 50px );
+    height: calc( 100vh - 50px - var( --editing_tools_height ) );
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -125,4 +125,47 @@
 .main .right .bottom .space{
     width: 80%;
     height: 150px;
+}
+
+
+.main .right .tools_container{
+    width: 100%;
+    height: var( --editing_tools_height );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+}
+
+.main .right .tools_container .tools{
+    /* width: 400px; */
+    height: 40px;
+    border-radius: 5px;
+    background: #fefefe;
+    box-shadow: 0 0 100px rgba(50,50,50,0.25);
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+}
+
+.main .right .tools_container .tools .tool{
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.main .right .tools_container .tools .tool span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main .right .tools_container .tools .tool:hover{
+    background: #ededed;
+}
+
+.main .right .tools_container .tools .active{
+    background: #ededed;
 }

@@ -1,44 +1,12 @@
-# NoteKeeper
+# React + Vite
 
-NoteKeeper is a simple and powerful note-taking web application built with React. It allows users to create, edit, and format notes and manage tasks efficiently.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
-- 📝 Rich-text editing (bold, italics, underline, etc.)
-- 📁 Organize notes into folders (coming soon)
-- 📊 Add charts and tasks (planned features)
-- ☁️ Cloud storage with Supabase (future update)
+Currently, two official plugins are available:
 
-## Tech Stack
-- **Frontend:** React, Vite
-- **Backend:** Node.js, Express (Coming soon)
-- **Database:** PostgreSQL (via Supabase, planned)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Getting Started
-### 1. Clone the Repository
-```sh
-git clone https://github.com/yourusername/NoteKeeper.git
-cd NoteKeeper
-```
+## Expanding the ESLint configuration
 
-### 2. Install Dependencies
-```sh
-npm install
-```
-
-### 3. Run the Development Server
-```sh
-npm run dev
-```
-
-## Roadmap
-- [x] Setup React frontend
-- [ ] Integrate rich-text editor
-- [ ] Implement backend with Express
-- [ ] Add PostgreSQL storage (Supabase)
-- [ ] Implement folders & tasks feature
-
-## Contributing
-Feel free to fork this repository and submit pull requests. Any contributions are welcome!
-
-## License
-MIT License
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

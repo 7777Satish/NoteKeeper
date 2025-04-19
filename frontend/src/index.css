@@ -10,6 +10,7 @@
   --secondary_background: #f3f3f3;
   --main_border_color: #d4d4d4;
   --movable_size: 5px;
+  --editing_tools_height: 70px;
 }
 
 body {
