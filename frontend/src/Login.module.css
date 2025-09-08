@@ -1,0 +1,163 @@
+.main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main .top{
+    height: 70px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.main .top h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.2em;
+    font-family: "Poppins", sans-serif;
+}
+
+.main .top h1 img{
+    width: 30px;
+    height: 30px;
+}
+
+.main .top h1 span{
+    color: #333;
+}
+
+
+/* ========== Form ========== */
+
+.bottom{
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom form{
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    width: 400px;
+    border-radius: 5px;
+}
+
+.bottom form .text{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bottom form .text h2{
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.bottom form .text p{
+    font-size: 1em;
+    color: #666;
+}
+
+.bottom form .inputGroup{
+    display: flex;
+    flex-direction: column;
+}
+
+.bottom form .inputGroup label{
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.bottom form .inputGroup input{
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: "Poppins", sans-serif;
+}
+
+
+form .inputGroup .conditions{
+    font-size: 0.8em;
+    color: #789;
+    line-height: 15px;
+    margin-top: 15px;
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+    height: 95px;
+
+}
+
+form .conditions ul li{
+    list-style: circle;
+}
+
+form .conditions .valid{
+    color: mediumseagreen;
+}
+
+form .conditions li.valid{
+    list-style: disc;
+}
+
+
+
+.bottom form button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #37998e;
+    color: #fff;
+    font-size: 1em;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.bottom form button:hover{
+    background: #2a7a6e;
+}
+
+.bottom form button:disabled{
+    background: #a9a9a9;
+    cursor: auto;
+}
+
+.bottom form .divider{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    color: #999;
+}
+
+.bottom form p a{
+    color: #37998e;
+    text-decoration: none;
+}
+
+.bottom form p a:hover{
+    text-decoration: underline;
+}
+
+.bottom form .disclaimer p{
+    font-size: 0.8em;
+    color: #444;
+}
+
+@media (max-width: 768px) {
+    .bottom{
+        align-items: flex-start;
+        padding-top: 100px;
+    }
+}
