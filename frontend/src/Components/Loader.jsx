@@ -1,8 +1,8 @@
 const spinnerStyle = {
-    width: "28px",
-    height: "28px",
-    border: "3px solid #ccc",
-    borderTop: "3px solid #37998e",
+    width: "14px",
+    height: "14px",
+    border: "2px solid #ddd",
+    borderTop: "2px solid #fff",
     borderRadius: "50%",
     animation: "spin 1s linear infinite",
     margin: "auto",
@@ -12,9 +12,7 @@ const containerStyle = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
     height: "100%",
-    position: "absolute",
     top: 0,
     left: 0,
 };
@@ -26,7 +24,7 @@ const spinnerKeyframes = `
 }
 `;
 
-function Loading() {
+function Loader() {
     return (
         <div style={containerStyle}>
             <style>{spinnerKeyframes}</style>
@@ -35,4 +33,4 @@ function Loading() {
     );
 }
 
-export default Loading;
+export default Loader;

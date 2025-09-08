@@ -1,21 +1,24 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { supabase } from "./supabaseClient";
 import styles from "./Login.module.css"
 import { Link, Navigate } from "react-router-dom";
 import Loading from "./Components/Loading";
 import { AuthContext } from "./App";
+import Loader from "./Components/Loader";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { user, loading } = useContext(AuthContext);
+    const [error, setError] = useState("");
     const [conditions, setConditions] = useState({
         minLength: false,
         hasNumber: false,
         hasSpecialChar: false
     });
-
+    const [verification, setVerification] = useState(false);
     const [showConditions, setShowConditions] = useState(false);
+    const [waiting, setWaiting] = useState(false);
+    const { user, loading } = useContext(AuthContext);
 
     if (loading) {
         return <Loading />
@@ -27,7 +30,7 @@ const SignUp = () => {
 
     const handlePassword = (e) => {
         setPassword(e.target.value);
-        
+
         const password = e.target.value;
         setConditions({
             minLength: password.length >= 6,
@@ -38,16 +41,16 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setWaiting(true);
 
         const { error, data } = await supabase.auth.signUp({ email, password })
         if (error) {
-            console.log(error.message);
+            setError(error.message);
+            setWaiting(false);
             return;
         }
-
-        console.log("Signup successful:", data);
-
-        window.location.href = "/onboarding";
+        setWaiting(false);
+        setVerification(true);
     };
 
     return <>
@@ -68,7 +71,7 @@ const SignUp = () => {
                             type="email"
                             placeholder="Enter your email address"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => { setEmail(e.target.value); setError("") }}
                             required
                         />
                     </div>
@@ -91,8 +94,17 @@ const SignUp = () => {
                             </ul>
                         </div>
                     </div>
-                    <button type="submit" disabled={!conditions.minLength || !conditions.hasNumber || !conditions.hasSpecialChar}>Sign Up</button>
+                    <button type="submit" disabled={!conditions.minLength || !conditions.hasNumber || !conditions.hasSpecialChar}>{waiting && <Loader />} <span>Sign Up</span></button>
 
+                    <div className={styles.error} style={{ maxHeight: error ? "100px" : "0px", margin: error ? "0px" : "-10px" }}>
+                        {error && <p>{error}</p>}
+                    </div>
+                    {
+                        verification &&
+                        <div className={styles.verification}>
+                            We have sent a verification email to your email address.
+                        </div>
+                    }
                     <div className={styles.divider}>
                         <p>Already have an account? <Link to="/login">Login</Link></p>
                     </div>

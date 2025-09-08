@@ -3,7 +3,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .main .top{
@@ -112,6 +112,13 @@ form .conditions li.valid{
 }
 
 
+form .verification{
+    color: #37998e;
+    font-size: 0.9em;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+}
+
 
 .bottom form button{
     padding: 10px;
@@ -121,6 +128,10 @@ form .conditions li.valid{
     color: #fff;
     font-size: 1em;
     font-family: "Poppins", sans-serif;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: 0.3s ease-in-out;
 }
@@ -133,6 +144,15 @@ form .conditions li.valid{
     background: #a9a9a9;
     cursor: auto;
 }
+
+
+.bottom form .error{
+    color: red;
+    font-size: 0.9em;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+}
+
 
 .bottom form .divider{
     display: flex;
@@ -158,6 +178,7 @@ form .conditions li.valid{
 @media (max-width: 768px) {
     .bottom{
         align-items: flex-start;
+        padding: 0 20px;
         padding-top: 100px;
     }
 }

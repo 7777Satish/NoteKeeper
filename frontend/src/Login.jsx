@@ -8,6 +8,7 @@ import Loading from "./Components/Loading";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const {user, loading} = useContext(AuthContext);
 
     if(loading){
@@ -18,12 +19,18 @@ const Login = () => {
         return <Navigate to="/" />;
     }
 
+    const handleEmail = (e) => {
+        setEmail(e.target.value);
+        setError("");
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         const {error, data} = await supabase.auth.signInWithPassword({email, password})
         if(error){
             console.error(error.message);
+            setError(error.message);
             return;
         }
 
@@ -50,7 +57,7 @@ const Login = () => {
                             type="email"
                             placeholder="Enter your email address"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => { handleEmail(e) }}
                             required
                         />
                     </div>
@@ -66,6 +73,10 @@ const Login = () => {
                         <p style={{alignSelf: "flex-end"}}><Link to="/reset-password">Forgot password?</Link></p>
                     </div>
                     <button type="submit" disabled={!email || !password}>Login</button>
+
+                    <div className={styles.error} style={{ maxHeight: error ? "100px" : "0px" }}>
+                        {error && <p>{error}</p>}
+                    </div>
 
                     <div className={styles.divider}>
                         <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
