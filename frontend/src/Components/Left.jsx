@@ -2,7 +2,7 @@ import { IoCreateOutline, IoHelpCircleOutline, IoHomeOutline, IoNotificationsOut
 import styles from './Left.module.css';
 import FolderStructure from './FolderStructure';
 
-function Left(){
+function Left({files, createFile, fetchFile}) {
     return <>
         <div className={styles.main}>
 
@@ -34,7 +34,7 @@ function Left(){
             </div>
 
             <div className={styles.center}>
-                <FolderStructure />
+                <FolderStructure files={files} createFile={createFile} fetchFile={fetchFile} />
             </div>
             
             <div className={styles.footer}>

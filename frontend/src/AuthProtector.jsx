@@ -8,8 +8,7 @@ function AuthProtector({children}){
     if (loading) return <><Loading/></>;
     if (!user) {
         return <Navigate to="/login" />;
-    } 
-    console.log(user);
+    }
     return children;
 }
 

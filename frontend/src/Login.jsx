@@ -4,12 +4,14 @@ import styles from "./Login.module.css"
 import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "./App";
 import Loading from "./Components/Loading";
+import Loader from "./Components/Loader";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const {user, loading} = useContext(AuthContext);
+    const [waiting, setWaiting] = useState(false);
 
     if(loading){
         return <Loading/>
@@ -26,14 +28,15 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setWaiting(true);
         const {error, data} = await supabase.auth.signInWithPassword({email, password})
         if(error){
             console.error(error.message);
             setError(error.message);
+            setWaiting(false);
             return;
         }
-
+        setWaiting(false);
         console.log("Login successful:", data);
 
         window.location.href = "/";
@@ -72,7 +75,7 @@ const Login = () => {
                         />
                         <p style={{alignSelf: "flex-end"}}><Link to="/reset-password">Forgot password?</Link></p>
                     </div>
-                    <button type="submit" disabled={!email || !password}>Login</button>
+                    <button type="submit" disabled={!email || !password}>{waiting && <Loader />} <span>Login</span></button>
 
                     <div className={styles.error} style={{ maxHeight: error ? "100px" : "0px" }}>
                         {error && <p>{error}</p>}

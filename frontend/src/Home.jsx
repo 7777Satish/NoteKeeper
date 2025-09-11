@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import styles from './Home.module.css';
 import Left from './Components/Left';
 import Movable from './Components/Movable';
@@ -12,24 +12,56 @@ import { BsTextLeft, BsTextCenter, BsTextRight } from "react-icons/bs";
 import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 import { MdOutlineFormatBold, MdOutlineFormatItalic, MdOutlineFormatUnderlined } from "react-icons/md";
 import { AiOutlineUnorderedList, AiOutlineOrderedList } from "react-icons/ai";
+import { supabase } from './supabaseClient';
+import { AuthContext } from './App';
+import { Navigate } from 'react-router-dom';
 
 
 
 function Home() {
+    const {user, loading} = useContext(AuthContext);
+
+    if(!user) return <Navigate to="/login" />;
 
     const [title, setTitle] = useState('New Page');
-    const [content, setContent] = useState(`Welcome to NotesBolt 📝
-<p>This is your first document. You can edit, format, and structure your content however you like. Here are some things you can do:</p>
-<h2>✨ Cool Features</h2>
-<ul><li><b>Bold text</b> for emphasis</li><li><i>Italic text</i> for style</li><li><s>Strikethrough</s> for mistakes</li>
-</ul>
-<h2>📌 Notes & Reminders</h2>
-<blockquote><i>"The secret of getting ahead is getting started."</i> - Mark Twain</blockquote>
-<p>Start writing your ideas below! 🚀</p>`);
+    const [content, setContent] = useState(``);
     const [layout, setLayout] = useState(250);
+    const [files, setFiles] = useState([]);
+    const [file, setFile] = useState(null);
 
     const titleRef = useRef(null);
     const contentRef = useRef(null);
+
+    const fetchFile = async (id) => {
+        const {error, data} = await supabase.from('files').select("*").eq('id', id).single();
+        if(error) {
+            console.error("Error fetching file:", error);
+            return;
+        }
+        setFile(data);
+        setTitle(data.title);
+        setContent(data.content);
+    }
+
+    const fetchFiles = async () => {
+        const {error, data} = await supabase.from('files').select("title, id").eq('user_id', user.id).order('last_updated', { ascending: false });
+        if(error) {
+            console.error("Error fetching files:", error);
+            return;
+        }
+        setFiles(data);
+        fetchFile(data[0].id);
+        console.log(data)
+    }
+
+    const createFile = async (title, content) => {
+        const {error} = await supabase.from('files').insert([{ title, content, user_id: user.id }]);
+        if(error) {
+            console.error("Error creating file:", error);
+            return;
+        }
+        fetchFiles();
+    }
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -37,13 +69,17 @@ function Home() {
     }
 
     const handleContentChange = (e) => {
-        setContent(e.target.innerHTML);
+        setContent(e.target.value);
     }
+
+    useEffect(() => {
+        fetchFiles();
+    }, []);
 
     return <>
         <div className={styles.main} style={{ gridTemplateColumns: `${layout}px 1fr` }}>
             <div className={styles.left} style={{ width: `${layout}px` }}>
-                <Left />
+                <Left files={files} createFile={createFile} fetchFile={fetchFile} />
                 <Movable min={250} max={500} direction='v' target={layout} setTarget={setLayout} />
             </div>
 
@@ -65,8 +101,9 @@ function Home() {
                     <div className={styles.image}></div>
                     {/* <div ref={titleRef} className={styles.title} contentEditable='true' onInput={handleTitleChange}>{title}</div> */}
                     <input placeholder='New Page' value={title} className={styles.title} onChange={handleTitleChange} />
-                    <pre ref={contentRef} onInput={handleContentChange} className={styles.content} contentEditable="true">
-                        Welcome to NotesBolt 📝<br />
+                    <textarea defaultValue={content} ref={contentRef} onInput={handleContentChange} className={styles.content} contentEditable="true" onChange={handleContentChange}>
+                        
+                        {/* Welcome to NotesBolt 📝<br />
 
                         <p>This is your first document. You can edit, format, and structure your content however you like. Here are some things you can do:</p>
                         <br />
@@ -80,8 +117,8 @@ function Home() {
                         <h2>📌 Notes & Reminders</h2>
                         <blockquote><i>"The secret of getting ahead is getting started."</i> – Mark Twain</blockquote>
                         <br /><br />
-                        <p>Start writing your ideas below! 🚀</p>
-                    </pre>
+                        <p>Start writing your ideas below! 🚀</p> */}
+                    </textarea>
                     <div className={styles.space}></div>
                 </div>
 

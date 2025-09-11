@@ -1,95 +1,161 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "./supabaseClient";
+import styles from "./OnBoarding.module.css"
+import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "./App";
-import { Navigate } from "react-router-dom";
+import Loading from "./Components/Loading";
+import Loader from "./Components/Loader";
 
-const slides = [
-    {
-        title: "Welcome to NotesBolt!",
-        content: "Your journey to organized notes starts here. Let's get you set up.",
-    },
-    {
-        title: "Tell us about you",
-        content: (
-            <>
-                <label>
-                    Name:
-                    <input type="text" name="name" />
-                </label>
-            </>
-        ),
-    },
-];
+const OnBoarding = () => {
+    // const video = useRef(null);
+    // const videoContainer = useRef(null);
 
-export default function OnBoarding() {
-    const [step, setStep] = useState(0);
-    const [form, setForm] = useState({ name: "" });
-    const {user} = useContext(AuthContext);
-    console.log(user)
-    const handleNext = () => {
-        if (step === 1 && !form.name) return;
-        setStep((prev) => Math.min(prev + 1, slides.length - 1));
-    };
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const { user, loading } = useContext(AuthContext);
+    const [waiting, setWaiting] = useState(false);
+    const [state, setState] = useState(0);
+    const [data, setData] = useState({
+        name: "",
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    });
 
-    const handleSubmit = async () => {
-        // const {error} = supabase.from("users").;
-        const { user, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
-        console.log(user, error)
+    // useEffect(()=>{
+        
+    //     setTimeout(()=>{
+    //         videoContainer.current.style.opacity = 0;
+    //     }, 6000)
+        
+    //     setTimeout(()=>{
+    //         videoContainer.current.style.display = "none";
+    //     }, 6700)
+    // }, [])
+
+    if (loading) {
+        return <Loading />
     }
 
-    // if(!user){
-    //     return <Navigate to="/login" />
-    // }
+    if (user.username) {
+        return <Navigate to="/" />;
+    }
 
-    return (
-        <div style={{ maxWidth: 400, margin: "40px auto", padding: 24, border: "1px solid #eee", borderRadius: 8 }}>
-            <h2>{slides[step].title}</h2>
-            <div style={{ margin: "24px 0" }}>
-                {step === 1 ? (
-                    <label>
-                        Name:
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setWaiting(true);
+        const { error, data } = await supabase.auth.signInWithPassword({ email, password })
+        if (error) {
+            console.error(error.message);
+            setError(error.message);
+            setWaiting(false);
+            return;
+        }
+        setWaiting(false);
+        console.log("Login successful:", data);
+
+        window.location.href = "/";
+    };
+
+    return <>
+        {/* <div className={styles.loading_video} ref={videoContainer}>
+            <video autoPlay loop muted ref={video}>
+                <source src="/main_video_loading.mp4" type="video/mp4" />
+                <source src="https://elevenlabs.io/public_app_assets/video/intro-desktop.webm" type="video/mp4" />
+            </video>
+        </div> */}
+
+        <div className={styles.main}>
+            {/* <div className={styles.top}>
+                <h1><img src="/logo.png" alt="NotesBolt Logo" /> <span>NotesBolt</span></h1>
+            </div> */}
+
+            <div className={styles.bottom}>
+                {
+                    state == 0 ?
+
+                        <form onSubmit={handleSubmit}>
+                            <div className={styles.text}>
+                                <h2>Help us personalize your experience</h2>
+                            </div>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="name">What is your name?</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter your name"
+                                    value={data.name}
+                                    onChange={(e) => { setData({ ...data, name: e.target.value }) }}
+                                    required
+                                />
+                            </div>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <p style={{ alignSelf: "flex-end" }}><Link to="/reset-password">Forgot password?</Link></p>
+                            </div>
+                            <button type="button">Next</button>
+
+                            {/* <div className={styles.error} style={{ maxHeight: error ? "100px" : "0px" }}>
+                                {error && <p>{error}</p>}
+                            </div> */}
+{/* 
+                            <div className={styles.divider}>
+                                <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+                            </div> */}
+                        </form>
+                        : state == 1 ?
+                            <>
+                            </>
+
+                            :
+                            <>
+
+                            </>}
+                {/* <form onSubmit={handleSubmit}>
+                    <div className={styles.text}>
+                        <h2>Login to your account</h2>
+                        <p>Enter your credentials to access your account.</p>
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="email">Email</label>
                         <input
-                            type="text"
-                            name="name"
-                            value={form.name}
-                            onChange={handleChange}
-                            style={{ marginLeft: 8 }}
-                            autoFocus
+                            type="email"
+                            placeholder="Enter your email address"
+                            value={email}
+                            onChange={(e) => { handleEmail(e) }}
+                            required
                         />
-                        <button onClick={handleSubmit}>Submit</button>
-                    </label>
-                ) : (
-                    <p>{slides[step].content}</p>
-                )}
-            </div>
-            {step < slides.length - 1 ? (
-                <button onClick={handleNext} style={{ padding: "8px 16px" }}>
-                    Next
-                </button>
-            ) : (
-                <div>
-                    <p>Thanks, {form.name || "user"}! You're all set.</p>
-                </div>
-            )}
-            <div style={{ marginTop: 16 }}>
-                {slides.map((_, idx) => (
-                    <span
-                        key={idx}
-                        style={{
-                            display: "inline-block",
-                            width: 10,
-                            height: 10,
-                            borderRadius: "50%",
-                            background: idx === step ? "#007bff" : "#ccc",
-                            margin: "0 4px",
-                        }}
-                    />
-                ))}
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <p style={{alignSelf: "flex-end"}}><Link to="/reset-password">Forgot password?</Link></p>
+                    </div>
+                    <button type="submit" disabled={!email || !password}>{waiting && <Loader />} <span>Login</span></button>
+
+                    <div className={styles.error} style={{ maxHeight: error ? "100px" : "0px" }}>
+                        {error && <p>{error}</p>}
+                    </div>
+
+                    <div className={styles.divider}>
+                        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+                    </div>
+                </form> */}
             </div>
         </div>
-    );
-}
+    </>
+};
+
+export default OnBoarding;

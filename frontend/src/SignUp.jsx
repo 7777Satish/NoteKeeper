@@ -73,37 +73,40 @@ const SignUp = () => {
                             value={email}
                             onChange={(e) => { setEmail(e.target.value); setError("") }}
                             required
+                            disabled={verification}
                         />
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            placeholder="Enter your password"
-                            value={password}
-                            onChange={(e) => handlePassword(e)}
-                            onFocus={() => setShowConditions(true)}
-                            required
-                        />
-
-                        <div className={styles.conditions} style={{ height: showConditions ? '95px' : '0' }}>
-                            <ul>
-                                <li className={conditions.minLength ? styles.valid : styles.invalid}>Minimum six characters</li>
-                                <li className={conditions.hasNumber ? styles.valid : styles.invalid}>At least one number</li>
-                                <li className={conditions.hasSpecialChar ? styles.valid : styles.invalid}>At least one special character</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <button type="submit" disabled={!conditions.minLength || !conditions.hasNumber || !conditions.hasSpecialChar}>{waiting && <Loader />} <span>Sign Up</span></button>
-
-                    <div className={styles.error} style={{ maxHeight: error ? "100px" : "0px", margin: error ? "0px" : "-10px" }}>
-                        {error && <p>{error}</p>}
                     </div>
                     {
-                        verification &&
-                        <div className={styles.verification}>
-                            We have sent a verification email to your email address.
-                        </div>
+                        !verification ? <>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) => handlePassword(e)}
+                                    onFocus={() => setShowConditions(true)}
+                                    required
+                                />
+
+                                <div className={styles.conditions} style={{ height: showConditions ? '95px' : '0' }}>
+                                    <ul>
+                                        <li className={conditions.minLength ? styles.valid : styles.invalid}>Minimum six characters</li>
+                                        <li className={conditions.hasNumber ? styles.valid : styles.invalid}>At least one number</li>
+                                        <li className={conditions.hasSpecialChar ? styles.valid : styles.invalid}>At least one special character</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button type="submit" disabled={!conditions.minLength || !conditions.hasNumber || !conditions.hasSpecialChar}>{waiting && <Loader />} <span>Sign Up</span></button>
+
+                            <div className={styles.error} style={{ maxHeight: error ? "100px" : "0px", margin: error ? "0px" : "-10px" }}>
+                                {error && <p>{error}</p>}
+                            </div></>
+
+                            :
+                            <div className={styles.verification}>
+                                We have sent a verification email to your email address.
+                            </div>
                     }
                     <div className={styles.divider}>
                         <p>Already have an account? <Link to="/login">Login</Link></p>
